@@ -169,72 +169,88 @@
 
 # 3.Создайте программу для игры в ""Крестики-нолики"".
 
-# board = list(range(1,10))
-# wins_c = [(1,2,3), (4, 5, 6), (7, 8, 9), (1, 5, 9), (3, 5, 7), (1, 4, 7,), (2, 5, 8), (3, 6, 9)]
+board = ([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-# def draw_board():
-#     print('_____________')
-#     for i in range(3):
-#         print('|', board[0 + i*3],'|', board[1 + i*3],'|', board[2 + i*3], '|' )
-#     print('_____________')
+# Вывод игрового поля
+def draw_board(board):
+    counter = 0
+    for i in range(len(board)):
+        print(board[i], end = '   ')
+        counter += 1
+        if counter == 3:
+            print()
+            counter = 0
 
-# def take_input(a): # что вводит пользователь
-#     while True:
-#         value = input('куда поставить ' + a + ' ' )
-#         if not value in '123456789':
-#             print('введите от 1 до 9')
-#             continue
-#         value = int(value)
-#         if str(board[value-1]) in 'XO':
-#             print('Клетка занята')
-#             continue
-#         board[value-1] = a
-#         break
-# def win():
-#     for each in wins_c:
-#         if (board[each [0] - 1 ]) == (board[each [1] - 1 ]) == (board[each [2] - 1 ]):
-#             return board [each [1]-1]
-#         else:
-#             return False
-# def main():
-#     counter = 0
-#     while True:
-#         draw_board()
-#         if counter % 2 == 0:
-#             take_input ('X')
-#         else:
-#             take_input('O')
-#         if counter > 3:
-#             winner = win()
-#             if winner:
-#                 draw_board()
-#                 print(winner, 'Выйграл')
-#                 break
-#         counter +=1
-#         if counter > 8:
-#             draw_board()
-#             print('Ничья')
-#             break
+# Выбор позиции
+def take_pos(letter, board):
+    flag = True
+    while flag:
+        draw_board(board)
+        pos = input("\nНа какую позицию поставить " + letter + ' \n')
+        if not pos in '123456789':
+            print('Необходимо ввести число от 1 до 9\n')
+            continue
+        if board[int(pos) - 1] != int(pos):
+            print('Клетка занятата\n')
+            continue
+        board[int(pos) - 1] = letter
+        flag = False
+    return board
 
-# main()
+# Выбор победителя
+def win(board, letter):
+    if board[0] == letter and board[1] == letter and board[2] == letter: return True
+    elif board[3] == letter and board[4] == letter and board[5] == letter: return True
+    elif board[6] == letter and board[7] == letter and board[8] == letter: return True
+    elif board[0] == letter and board[3] == letter and board[6] == letter: return True
+    elif board[1] == letter and board[4] == letter and board[7] == letter: return True
+    elif board[2] == letter and board[5] == letter and board[8] == letter: return True
+    elif board[0] == letter and board[4] == letter and board[8] == letter: return True
+    elif board[2] == letter and board[4] == letter and board[6] == letter: return True
+    else: False
+
+
+# Главный метод
+def head():
+    print('\nДобро пожаловать в игру "КРЕСТИКИ-НОЛИКИ"\n')
+    while True:
+        for i in range(9):
+            if i > 4:
+                if win(board, 'x') == True:
+                    draw_board(board)
+                    print('Победил игрок "x"\n')
+                    break
+                elif win(board, 'o') == True:
+                    draw_board(board)
+                    print('Победил игрок "o"\n')
+                    break
+            if i % 2 == 0: take_pos('x', board)
+            else: take_pos('o', board)
+        if i == 8:
+            print("Ничья\n")
+            draw_board(board)
+        break
+    print("До скорой встречи!")
+                
+head()
 
 # 4.Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
 
-from encodings import utf_8
-from traceback import print_list
-with open('222.txt', 'r', encoding = 'utf_8') as f:
-    for line in f.readlines():
-        print(line)
-count = 1
-line = line + ' '
-line_new = ''
-for i in range(len(line)-1):
-    if line[i] == line[i + 1]:
-        count += 1
-    else:
-        line_new = line_new + (str(count) + line[i])
-        count = 1
-print(line_new)
-f = open('222.txt','a', encoding = 'utf_8')
-f.write(('\n' + line_new))
-f.close()
+# from encodings import utf_8
+# from traceback import print_list
+# with open('222.txt', 'r', encoding = 'utf_8') as f:
+#     for line in f.readlines():
+#         print(line)
+# count = 1
+# line = line + ' '
+# line_new = ''
+# for i in range(len(line)-1):
+#     if line[i] == line[i + 1]:
+#         count += 1
+#     else:
+#         line_new = line_new + (str(count) + line[i])
+#         count = 1
+# print(line_new)
+# f = open('222.txt','a', encoding = 'utf_8')
+# f.write(('\n' + line_new))
+# f.close()
